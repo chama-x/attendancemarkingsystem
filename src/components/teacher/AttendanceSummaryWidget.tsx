@@ -136,7 +136,7 @@ function AttendanceSummaryWidget({ grade, className }: AttendanceSummaryWidgetPr
           <div className="widget-actions">
             <button 
               className="widget-action-button" 
-              onClick={() => window.location.href = "#/mark-attendance"}
+              onClick={() => window.location.href = "#mark-attendance"}
             >
               Mark Today
             </button>
