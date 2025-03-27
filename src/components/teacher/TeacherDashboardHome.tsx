@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchStudents } from "../../utils/firebaseService";
 import AttendanceSummaryWidget from "./AttendanceSummaryWidget";
-import AIAssistantWidget from "./AIAssistantWidget";
 
 interface TeacherDashboardHomeProps {
   grade: number;
@@ -84,12 +83,6 @@ function TeacherDashboardHome({ grade, className }: TeacherDashboardHomeProps) {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <div className="dashboard-row">
-          <div className="dashboard-col full-width">
-            <AIAssistantWidget grade={grade} className={className} />
           </div>
         </div>
       </div>

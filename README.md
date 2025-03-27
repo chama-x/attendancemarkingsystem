@@ -1,14 +1,13 @@
 # AttendanceMark
 
-A modern, intuitive attendance management system designed for educational institutions with AI-powered assistance.
+A modern, intuitive attendance management system designed for educational institutions.
 
 ## Overview
 
-AttendanceMark simplifies the daily task of taking attendance for teachers and educational staff. With an intuitive interface and an AI assistant, the platform makes it easy to track student attendance, generate reports, and maintain accurate records.
+AttendanceMark simplifies the daily task of taking attendance for teachers and educational staff. With an intuitive interface, the platform makes it easy to track student attendance, generate reports, and maintain accurate records.
 
 ## Key Features
 
-- **AI Teaching Assistant**: Natural language interface to quickly mark attendance, add students, and retrieve information
 - **Real-time Attendance Tracking**: Mark students as present, absent, or late with just a few clicks
 - **Bulk Operations**: Mark multiple students or entire classes at once
 - **Detailed Analytics**: View attendance trends, identify patterns, and generate insightful reports
@@ -19,7 +18,6 @@ AttendanceMark simplifies the daily task of taking attendance for teachers and e
 
 - **Frontend**: React.js with TypeScript
 - **Backend**: Firebase (Authentication, Firestore Database, Cloud Functions)
-- **AI Integration**: Google's Generative AI (Gemini 1.5 Flash)
 - **State Management**: React Context API with custom hooks
 - **Styling**: Modern CSS with responsive design
 
@@ -30,7 +28,6 @@ AttendanceMark simplifies the daily task of taking attendance for teachers and e
 - Node.js (v14.0.0 or higher)
 - npm or yarn
 - Firebase account
-- Google Generative AI API key
 
 ### Installation
 
@@ -59,7 +56,6 @@ AttendanceMark simplifies the daily task of taking attendance for teachers and e
    REACT_APP_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
    REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
-   REACT_APP_GOOGLE_GENAI_API_KEY=your_google_genai_api_key
    ```
 
 4. Start the development server:
@@ -72,30 +68,15 @@ AttendanceMark simplifies the daily task of taking attendance for teachers and e
 
 ## Usage
 
-### AI Assistant Commands
+### Attendance Management
 
-The AI assistant responds to natural language queries or the following slash commands:
+The system provides an intuitive interface for:
 
-- `/add-student [name]` - Add a new student
-- `/mark-present [name]` - Mark a student as present
-- `/mark-absent [name]` - Mark a student as absent
-- `/mark-all [status]` - Mark all students with a status
-- `/mark-students [status] [name1], [name2]` - Mark multiple specific students
-- `/today` - Show today's attendance statistics
-- `/present` - List students who are present today
-- `/absent` - List students who are absent today
-- `/late` - List students who are late today
-- `/stats` - Show overall attendance statistics
-- `/help` - Display available commands
-
-### Example Interactions
-
-Simply type natural language requests like:
-
-- "Mark Sunil and Sampath as present"
-- "Add a new student named Hasith Rajapaksa"
-- "Who's absent today?"
-- "Show me the attendance statistics for this month"
+- Adding new students to classes
+- Marking attendance as present, absent, or late
+- Viewing attendance records by date
+- Generating statistics and reports
+- Managing student information
 
 ## Project Structure
 
@@ -106,7 +87,6 @@ attendancemark/
 │   ├── components/
 │   │   ├── common/
 │   │   ├── teacher/
-│   │   │   └── AIAssistantWidget.tsx
 │   │   └── admin/
 │   ├── context/
 │   │   └── AuthContext.tsx
@@ -132,17 +112,6 @@ The application follows a modular architecture with:
 - **Type Safety**: TypeScript interfaces throughout the codebase
 - **Service Abstraction**: Firebase interactions isolated in service modules
 
-## Optimizations
-
-The project implements several optimizations for performance and maintainability:
-
-- **Tool Execution Abstraction**: Centralized error handling for consistent responses
-- **Dynamic Command Registry**: Flexible command system for easy extension
-- **Bulk Operation Optimizer**: Efficient processing of multiple attendance records
-- **AI Context Composition**: Dynamic context generation for better AI responses
-- **Custom Message Hooks**: Streamlined state management for chat functionality
-- **Status Indicators**: Visual feedback for asynchronous operations
-
 ## Future Enhancements
 
 - Mobile application for on-the-go attendance marking
@@ -167,7 +136,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- Google for providing the Generative AI API
 - Firebase for robust backend services
 - All contributors who have helped shape this project
 

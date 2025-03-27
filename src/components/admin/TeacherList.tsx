@@ -61,26 +61,28 @@ function TeacherList() {
   }
 
   return (
-    <div className="teacher-list">
+    <div className="teacher-list section">
       <h3>Teachers</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Grade</th>
-            <th>Class</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teachers.map((teacher) => (
-            <tr key={teacher.uid}>
-              <td>{teacher.email}</td>
-              <td>{teacher.grade}</td>
-              <td>{teacher.class}</td>
+      <div className="table-container">
+        <table className="mobile-friendly-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Grade</th>
+              <th>Class</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {teachers.map((teacher) => (
+              <tr key={teacher.uid}>
+                <td data-label="Email">{teacher.email}</td>
+                <td data-label="Grade">{teacher.grade}</td>
+                <td data-label="Class">{teacher.class}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -1934,6 +1934,22 @@ button:disabled {
   background-color: rgba(74, 133, 225, 0.05);
 }
 
+/* Teacher List Component */
+.teacher-list {
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--bg-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+}
+
+.teacher-list h3 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
 /* Status-specific row styling */
 tr.status-present {
   background-color: rgba(76, 175, 80, 0.05) !important;

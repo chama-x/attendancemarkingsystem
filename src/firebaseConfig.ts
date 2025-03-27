@@ -16,9 +16,6 @@ export const firebaseConfig = {
   databaseURL: "https://attendance-a35f4-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
-// Google Generative AI API key
-export const GOOGLE_GENAI_API_KEY = "AIzaSyBifNdpogQYd_ls8NHj0fkz2UsAjEbe5Pk";
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
