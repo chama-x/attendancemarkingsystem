@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 import { fetchAttendanceHistory } from "../../utils/firebaseService";
+import { AttendanceRecord } from "../../types";
 
 interface AttendanceSummaryWidgetProps {
   grade: number;
   className: string;
 }
 
+interface AttendanceDay {
+  [studentId: string]: AttendanceRecord;
+}
+
+interface AttendanceHistory {
+  [date: string]: AttendanceDay;
+}
+
 function AttendanceSummaryWidget({ grade, className }: AttendanceSummaryWidgetProps) {
-  const [recentAttendance, setRecentAttendance] = useState<any>(null);
+  const [recentAttendance, setRecentAttendance] = useState<AttendanceHistory | null>(null);
   const [today, setToday] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [stats, setStats] = useState<{
@@ -54,7 +63,7 @@ function AttendanceSummaryWidget({ grade, className }: AttendanceSummaryWidgetPr
           let absent = 0;
           let late = 0;
           
-          Object.values(dayData).forEach((record: any) => {
+          Object.values(dayData).forEach((record: AttendanceRecord) => {
             if (record.status === "present") present++;
             else if (record.status === "absent") absent++;
             else if (record.status === "late") late++;
@@ -142,7 +151,7 @@ function AttendanceSummaryWidget({ grade, className }: AttendanceSummaryWidgetPr
             </button>
             <button 
               className="widget-action-button secondary" 
-              onClick={() => window.location.href = "#/attendance-history"}
+              onClick={() => window.location.href = "#view-attendance"}
             >
               View History
             </button>
@@ -153,7 +162,7 @@ function AttendanceSummaryWidget({ grade, className }: AttendanceSummaryWidgetPr
           <p>No recent attendance records found.</p>
           <button 
             className="widget-action-button"
-            onClick={() => window.location.href = "#/mark-attendance"}
+            onClick={() => window.location.href = "#mark-attendance"}
           >
             Mark Today's Attendance
           </button>
