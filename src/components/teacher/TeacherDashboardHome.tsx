@@ -77,7 +77,7 @@ function TeacherDashboardHome({ grade, className }: TeacherDashboardHomeProps) {
               <div className="card-actions">
                 <button 
                   className="card-action-button"
-                  onClick={() => window.location.href = "#/manage-students"}
+                  onClick={() => window.location.hash = "students"}
                 >
                   Manage Students
                 </button>
