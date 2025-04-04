@@ -60,8 +60,6 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-form">
-        <img src="/logo.jpeg" alt="School Logo" className="login-logo" />
-        <h4 className="school-name">Mo/Kukurampola K.V.</h4>
         <h2>Smart Attendance System</h2>
         <h3>Teacher & Admin Portal</h3>
         

@@ -135,7 +135,6 @@ function TeacherDashboard() {
       <header className="dashboard-header">
         <div className="dashboard-title">
           <h1>Teacher Dashboard</h1>
-          <span className="school-name">Mo/Kukurampola K.V.</span>
           <div className="teacher-info">
             <div className="dashboard-subtitle">Teacher Portal</div>
             <span className="teacher-class-badge">Grade {teacherGrade} {teacherClass}</span>
