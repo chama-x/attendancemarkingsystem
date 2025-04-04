@@ -208,17 +208,19 @@ function TeacherList() {
                         maxLength={1}
                       />
                     </td>
-                    <td data-label="Actions" className="actions-cell">
+                    <td data-label="Actions" className="actions-cell" style={{ display: 'flex', gap: '20px', justifyContent: 'flex-end' }}>
                       <button 
                         className="small-button approve-button"
                         onClick={() => handleUpdateTeacher(teacher.uid, teacher.email)}
                         disabled={loading}
+                        style={{ minWidth: '80px' }}
                       >
                         Save
                       </button>
                       <button 
                         className="small-button secondary-button"
                         onClick={() => toggleEditMode(teacher.uid, false)}
+                        style={{ minWidth: '80px' }}
                       >
                         Cancel
                       </button>
@@ -228,10 +230,11 @@ function TeacherList() {
                   <>
                     <td data-label="Grade">{teacher.grade}</td>
                     <td data-label="Class">{teacher.class}</td>
-                    <td data-label="Actions" className="actions-cell">
+                    <td data-label="Actions" className="actions-cell" style={{ display: 'flex', gap: '20px', justifyContent: 'flex-end' }}>
                       <button 
                         className="small-button edit-button"
                         onClick={() => toggleEditMode(teacher.uid, true)}
+                        style={{ minWidth: '80px' }}
                       >
                         Edit
                       </button>
@@ -239,6 +242,7 @@ function TeacherList() {
                         className="small-button delete-button"
                         onClick={() => handleDeleteTeacher(teacher.uid, teacher.email)}
                         disabled={loading}
+                        style={{ minWidth: '80px' }}
                       >
                         Delete
                       </button>

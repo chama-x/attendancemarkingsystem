@@ -141,23 +141,26 @@ function AttendanceMarker({ grade, className }: AttendanceMarkerProps) {
               <tr key={student.id}>
                 <td data-label="Name">{student.name}</td>
                 <td data-label="Index">{student.index}</td>
-                <td data-label="Status" className="status-cell">
-                  <div className="button-group">
+                <td data-label="Status">
+                  <div className="status-cell attendance-status-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'space-between', width: '100%' }}>
                     <button 
                       className={`small-button ${attendance[student.id]?.status === "present" ? "approve-button" : ""}`}
                       onClick={() => handleAttendanceChange(student.id, "present")}
+                      style={{ flex: '1', minWidth: '90px', margin: '0 3px' }}
                     >
                       Present
                     </button>
                     <button 
                       className={`small-button ${attendance[student.id]?.status === "absent" ? "reject-button" : ""}`}
                       onClick={() => handleAttendanceChange(student.id, "absent")}
+                      style={{ flex: '1', minWidth: '90px', margin: '0 3px' }}
                     >
                       Absent
                     </button>
                     <button 
                       className={`small-button ${attendance[student.id]?.status === "late" ? "check-button" : ""}`}
                       onClick={() => handleAttendanceChange(student.id, "late")}
+                      style={{ flex: '1', minWidth: '90px', margin: '0 3px' }}
                     >
                       Late
                     </button>

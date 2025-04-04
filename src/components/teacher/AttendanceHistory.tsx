@@ -18,9 +18,12 @@ interface AttendanceRecord {
   } | string | number;
 }
 
+// Define the type for the attendance history data
+type AttendanceData = Record<string, Record<string, AttendanceRecord | boolean>>;
+
 function AttendanceHistory({ grade, className }: AttendanceHistoryProps) {
   const [students, setStudents] = useState<Student[]>([]);
-  const [attendanceHistory, setAttendanceHistory] = useState<Record<string, Record<string, AttendanceRecord>>>({});
+  const [attendanceHistory, setAttendanceHistory] = useState<AttendanceData>({});
   const [dates, setDates] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -38,7 +41,7 @@ function AttendanceHistory({ grade, className }: AttendanceHistoryProps) {
         const attendanceData = await fetchAttendanceHistory(grade, className);
         
         if (Object.keys(attendanceData).length > 0) {
-          setAttendanceHistory(attendanceData);
+          setAttendanceHistory(attendanceData as AttendanceData);
           
           // Extract and sort dates
           const datesList = Object.keys(attendanceData);
@@ -60,63 +63,92 @@ function AttendanceHistory({ grade, className }: AttendanceHistoryProps) {
   }, [grade, className]);
   
   if (loading) {
-    return <div>Loading attendance history...</div>;
+    return (
+      <div className="attendance-history">
+        <h3>Attendance History - Grade {grade} {className}</h3>
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading attendance records...</p>
+        </div>
+      </div>
+    );
   }
   
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return (
+      <div className="attendance-history">
+        <h3>Attendance History - Grade {grade} {className}</h3>
+        <div className="error-state">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
   }
   
   if (dates.length === 0) {
-    return <div>No attendance records found for this class.</div>;
+    return (
+      <div className="attendance-history">
+        <h3>Attendance History - Grade {grade} {className}</h3>
+        <div className="empty-state">
+          <p>No attendance records found for this class.</p>
+        </div>
+      </div>
+    );
   }
   
   return (
     <div className="attendance-history">
       <h3>Attendance History - Grade {grade} {className}</h3>
       
-      <div className="attendance-note">
-        <p><em>Note: Late arrivals (*) are counted as present for attendance rate calculations.</em></p>
+      <div className="attendance-legend">
+        <div className="legend-item">
+          <div className="color-box present"></div>
+          <span>Present</span>
+        </div>
+        <div className="legend-item">
+          <div className="color-box absent"></div>
+          <span>Absent</span>
+        </div>
+        <div className="legend-item">
+          <div className="color-box late"></div>
+          <span>Late</span>
+        </div>
+        <div className="legend-item">
+          <div className="color-box unknown"></div>
+          <span>No Record</span>
+        </div>
       </div>
       
-      {dates.length > 0 ? (
-        <div className="table-container">
-          <table className="attendance-table mobile-friendly-table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                {dates.map(date => (
-                  <th key={date}>{formatDate(date)}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {students.map(student => (
-                <tr key={student.id}>
-                  <td data-label="Student">{student.name}</td>
-                  {dates.map(date => (
-                    <td 
-                      key={`${student.id}-${date}`} 
-                      data-label={formatDate(date)} 
-                      className="status-cell"
-                    >
-                      {renderAttendanceStatus(attendanceHistory[date]?.[student.id])}
-                    </td>
-                  ))}
-                </tr>
+      <div className="simple-table-container">
+        <table className="simple-attendance-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              {dates.map(date => (
+                <th key={date}>{formatDate(date)}</th>
               ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p>No attendance records found for this class.</p>
-      )}
-      
-      <div className="attendance-legend">
-        <p><span className="attendance-present">✅</span> Present</p>
-        <p><span className="attendance-absent">❌</span> Absent</p>
-        <p><span className="attendance-late">⏰*</span> Late (Counted as Present for attendance rate)</p>
-        <p><span className="attendance-unknown">-</span> No record</p>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map(student => (
+              <tr key={student.id}>
+                <td className="student-name">{student.name}</td>
+                {dates.map(date => {
+                  const record = attendanceHistory[date]?.[student.id];
+                  const status = getAttendanceStatus(record);
+                  return (
+                    <td 
+                      key={`${student.id}-${date}`}
+                      className={`attendance-cell ${status}`}
+                      title={getStatusText(status)}
+                    >
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -124,34 +156,41 @@ function AttendanceHistory({ grade, className }: AttendanceHistoryProps) {
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString();
+  const options: Intl.DateTimeFormatOptions = { 
+    month: 'short', 
+    day: 'numeric',
+    year: 'numeric'
+  };
+  return date.toLocaleDateString(undefined, options);
 }
 
-function renderAttendanceStatus(record: AttendanceRecord | undefined | boolean): React.ReactElement {
+function getAttendanceStatus(record: AttendanceRecord | undefined | boolean): string {
   if (!record) {
-    return <span className="attendance-unknown">Unknown</span>;
+    return 'unknown';
   }
   
   if (typeof record === 'boolean') {
-    return record ? 
-      <span className="attendance-present">Present</span> : 
-      <span className="attendance-absent">Absent</span>;
+    return record ? 'present' : 'absent';
   }
   
   if (typeof record === 'object' && 'status' in record) {
-    switch(record.status) {
-      case 'present':
-        return <span className="attendance-present">Present</span>;
-      case 'absent':
-        return <span className="attendance-absent">Absent</span>;
-      case 'late':
-        return <span className="attendance-late">Late*</span>;
-      default:
-        return <span className="attendance-unknown">Unknown</span>;
-    }
+    return record.status;
   }
   
-  return <span className="attendance-unknown">Unknown</span>;
+  return 'unknown';
 }
 
-export default AttendanceHistory; 
+function getStatusText(status: string): string {
+  switch(status) {
+    case 'present':
+      return 'Present';
+    case 'absent':
+      return 'Absent';
+    case 'late':
+      return 'Late (counted as present)';
+    default:
+      return 'No record';
+  }
+}
+
+export default AttendanceHistory;

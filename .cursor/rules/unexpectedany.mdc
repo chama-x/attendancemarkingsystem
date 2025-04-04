@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Specify Types Explicitly:
+Instead of using any, try to specify the exact type of the variable. For example, if you're dealing with an object whose structure you know, define an interface or type for it.
+
+typescript
+// Instead of this:
+let data: any = { name: 'John', age: 30 };
+
+// Use this:
+interface Person {
+  name: string;
+  age: number;
+}
+
+let data: Person = { name: 'John', age: 30 };

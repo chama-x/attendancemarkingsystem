@@ -129,25 +129,24 @@ function PermissionRequestList() {
                   {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                 </td>
                 <td>{formatDate(request.requestedAt)}</td>
-                <td>
-                  {request.status === 'pending' && (
-                    <div className="button-group">
-                      <button 
+                <td data-label="Actions">
+                  {request.status === "pending" && (
+                    <div className="actions-cell" style={{ display: 'flex', gap: '20px', justifyContent: 'flex-end' }}>
+                      <button
+                        className="small-button approve-button"
                         onClick={() => handleApprove(request.id)}
-                        className="approve-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
                         Approve
                       </button>
-                      <button 
+                      <button
+                        className="small-button reject-button"
                         onClick={() => handleReject(request.id)}
-                        className="reject-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
                         Reject
                       </button>
                     </div>
-                  )}
-                  {request.status !== 'pending' && (
-                    <span>Processed</span>
                   )}
                 </td>
               </tr>

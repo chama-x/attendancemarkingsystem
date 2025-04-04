@@ -9,38 +9,31 @@ interface TeacherDashboardHomeProps {
 
 function TeacherDashboardHome({ grade, className }: TeacherDashboardHomeProps) {
   const [studentCount, setStudentCount] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
   const [currentDate, setCurrentDate] = useState<string>("");
 
   useEffect(() => {
-    fetchData();
+    // Format current date 
+    const today = new Date();
+    const options: Intl.DateTimeFormatOptions = { 
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    setCurrentDate(today.toLocaleDateString(undefined, options));
     
-    // Set current date
-    const date = new Date();
-    setCurrentDate(date.toLocaleDateString(undefined, { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    }));
+    // Fetch student count
+    const getStudentCount = async () => {
+      try {
+        const students = await fetchStudents(grade, className);
+        setStudentCount(students.length);
+      } catch (error) {
+        console.error("Error fetching student count:", error);
+      }
+    };
+    
+    getStudentCount();
   }, [grade, className]);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      // Fetch students to get count
-      const students = await fetchStudents(grade, className);
-      setStudentCount(students.length);
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return <div className="loading-section">Loading dashboard...</div>;
-  }
 
   return (
     <div className="teacher-dashboard-home">

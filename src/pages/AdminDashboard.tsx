@@ -21,11 +21,12 @@ function AdminDashboard() {
     <div className="dashboard admin-dashboard">
       <header className="dashboard-header">
         <div className="dashboard-title">
-          <h1>Smart Attendance | Mo/Kukurampola K.V.</h1>
+          <h1>Admin Dashboard</h1>
+          <span className="school-name">Mo/Kukurampola K.V.</span>
           <div className="dashboard-subtitle">Administrator Portal</div>
         </div>
         <button onClick={handleLogout} className="logout-button">
-          Logout
+          <span>Logout</span>
         </button>
       </header>
 

@@ -133,33 +133,37 @@ function StudentList({ grade, className, refreshTrigger }: StudentListProps) {
                 </td>
                 <td data-label="Actions">
                   {editingStudent && editingStudent.id === student.id ? (
-                    <div className="button-group">
+                    <div className="actions-cell" style={{ display: 'flex', gap: '20px', justifyContent: 'flex-end' }}>
                       <button
+                        className="small-button approve-button"
                         onClick={handleSaveEdit}
-                        className="save-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
                         Save
                       </button>
                       <button
+                        className="small-button secondary-button"
                         onClick={handleCancelEdit}
-                        className="cancel-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
                         Cancel
                       </button>
                     </div>
                   ) : (
-                    <div className="button-group">
-                      <button 
+                    <div className="actions-cell" style={{ display: 'flex', gap: '20px', justifyContent: 'flex-end' }}>
+                      <button
+                        className="small-button edit-button"
                         onClick={() => handleEditClick(student)}
-                        className="edit-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
+                        className="small-button delete-button"
                         onClick={() => handleRemoveStudent(student.id)}
-                        className="remove-button small-button"
+                        style={{ minWidth: '80px' }}
                       >
-                        Remove
+                        Delete
                       </button>
                     </div>
                   )}

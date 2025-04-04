@@ -96,16 +96,42 @@ function Login() {
             type="submit" 
             className="login-button" 
             disabled={loading}
+            style={{ 
+              width: '100%', 
+              padding: '12px 16px', 
+              margin: '16px 0 0 0',
+              backgroundColor: '#4A85E1',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              fontSize: '16px',
+              fontWeight: 500,
+              cursor: 'pointer'
+            }}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         
-        <div className="autofill-buttons">
+        <div className="autofill-buttons" style={{ 
+          marginTop: '20px', 
+          display: 'flex', 
+          gap: '10px',
+          justifyContent: 'space-between' 
+        }}>
           <button 
             onClick={fillAdminCredentials} 
             type="button"
             className="autofill-button admin"
+            style={{ 
+              flex: '1', 
+              padding: '8px 12px',
+              backgroundColor: '#34495e',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
           >
             Admin Demo
           </button>
@@ -113,6 +139,15 @@ function Login() {
             onClick={fillTeacherCredentials} 
             type="button"
             className="autofill-button teacher"
+            style={{ 
+              flex: '1', 
+              padding: '8px 12px',
+              backgroundColor: '#2980b9',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
           >
             Teacher Demo
           </button>

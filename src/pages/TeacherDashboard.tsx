@@ -134,14 +134,15 @@ function TeacherDashboard() {
     <div className="dashboard teacher-dashboard">
       <header className="dashboard-header">
         <div className="dashboard-title">
-          <h1>Smart Attendance | Mo/Kukurampola K.V.</h1>
+          <h1>Teacher Dashboard</h1>
+          <span className="school-name">Mo/Kukurampola K.V.</span>
           <div className="teacher-info">
             <div className="dashboard-subtitle">Teacher Portal</div>
             <span className="teacher-class-badge">Grade {teacherGrade} {teacherClass}</span>
           </div>
         </div>
         <button onClick={handleLogout} className="logout-button">
-          Logout
+          <span>Logout</span>
         </button>
       </header>
 

@@ -92,6 +92,7 @@ body::before {
   min-height: 100vh;
   position: relative;
   z-index: 1;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Login Page Styles */
@@ -315,9 +316,9 @@ input[type="date"]:focus {
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1rem;
   margin-bottom: var(--spacing-sm);
   line-height: 1.2;
 }
@@ -402,13 +403,126 @@ input[type="date"]:focus {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dashboard-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-title h1 {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-weight: 600;
+  color: white;
   margin: 0;
+  line-height: 1.3;
+}
+
+.school-name {
+  font-size: 1.1rem;
+  color: rgba(96, 96, 96, 0.9);
+  font-weight: 500;
+  display: block;
+  line-height: 1.2;
+}
+
+.portal-badge {
+  display: inline-block;
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+.dashboard-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.teacher-class-badge {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.logout-button {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive header */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: var(--spacing-md);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .dashboard-title h1 {
+    font-size: 1.3rem;
+  }
+  
+  .school-name {
+    font-size: 1rem;
+  }
+  
+  .logout-button {
+    margin-top: var(--spacing-sm);
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: var(--spacing-sm);
+  }
+  
+  .dashboard-title h1 {
+    font-size: 1.1rem;
+  }
+  
+  .school-name {
+    font-size: 0.9rem;
+  }
+  
+  .teacher-class-badge {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 0.8rem;
+  }
 }
 
 .dashboard-user-info {
@@ -469,9 +583,40 @@ input[type="date"]:focus {
   font-size: 1.1rem;
 }
 
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); /* Account for header height */
+}
+
+.dashboard-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-medium);
+  width: 100%;
+  border-bottom: 3px solid var(--primary-dark);
+}
+
 .dashboard-content {
-  padding-bottom: var(--spacing-lg);
-  animation: fadeIn 1s ease-out;
+  flex: 1;
+  padding: var(--spacing-md);
+  background-color: var(--bg-light);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section, 
+.primary-section {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
 }
 
 .section-header {
@@ -579,101 +724,154 @@ input[type="date"]:focus {
   color: var(--danger-dark);
 }
 
-/* Button variants */
-.approve-button,
-button.success,
-button[class*="success"] {
-  background-color: var(--success-color);
+/* Unified button styles */
+button, 
+.btn,
+[class*="button"] {
+  cursor: pointer;
+  background-color: var(--primary-color);
   color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0; /* Reset margins */
 }
 
-.approve-button:hover,
-button.success:hover,
-button[class*="success"]:hover {
-  background-color: var(--success-dark);
+button:hover, 
+.btn:hover,
+[class*="button"]:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
 }
 
-/* General danger button styles */
-button.danger,
-button[class*="danger"] {
-  background-color: var(--danger-color);
-  color: white !important;
+button:disabled, 
+.btn:disabled,
+[class*="button"]:disabled {
+  background-color: var(--neutral-medium);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
 }
 
-button.danger:hover,
-button[class*="danger"]:hover {
-  background-color: var(--danger-dark);
-  color: white !important;
-}
-
-button.danger:active,
-button[class*="danger"]:active {
-  background-color: var(--danger-dark);
-  color: white !important;
-  transform: translateY(0);
-}
-
-/* Specific danger button variants */
-.reject-button {
-  background-color: var(--danger-color);
-  color: white !important;
-  min-height: 2.5rem;
-  min-width: 2.5rem;
-}
-
-.reject-button:hover {
-  background-color: var(--danger-dark);
-  color: white !important;
-}
-
-.reject-button:active {
-  background-color: var(--danger-dark);
-  color: white !important;
-  transform: translateY(0);
-}
-
-.remove-button {
-  background-color: var(--danger-color);
-  color: white !important;
-  padding: 0.35rem 0.7rem;
-  font-size: 0.85rem;
-  min-height: 2.25rem;
-}
-
-.remove-button:hover {
-  background-color: var(--danger-dark);
-  color: white !important;
-}
-
-.remove-button:active {
-  background-color: var(--danger-dark);
-  color: white !important;
-  transform: translateY(0);
-}
-
-.download-button,
-button.secondary,
-button[class*="secondary"] {
-  background-color: var(--secondary-color);
-  color: white;
-}
-
-.download-button:hover,
-button.secondary:hover,
-button[class*="secondary"]:hover {
-  background-color: var(--secondary-dark);
-}
-
-.small-button {
+/* Small button styles */
+.small-button,
+button.small {
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
   min-height: 2.25rem;
+  box-sizing: border-box;
 }
 
-.button-group {
+/* Button color variants - consolidated */
+.danger-button,
+button.danger,
+.delete-button,
+.reject-button,
+.remove-button {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+  color: white;
+}
+
+.danger-button:hover,
+button.danger:hover,
+.delete-button:hover,
+.reject-button:hover,
+.remove-button:hover {
+  background-color: var(--danger-dark);
+  border-color: var(--danger-dark);
+}
+
+.success-button,
+button.success,
+.approve-button {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+  color: white;
+}
+
+.success-button:hover,
+button.success:hover,
+.approve-button:hover {
+  background-color: var(--success-dark);
+  border-color: var(--success-dark);
+}
+
+.edit-button {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+/* Action cells - ensure consistent styling */
+.actions-cell {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-width: 160px; /* Ensure buttons have enough space */
+  padding: 8px 12px;
+}
+
+/* Fix actions spacing for mobile */
+@media (max-width: 768px) {
+  button, 
+  .btn,
+  [class*="button"] {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    min-height: 2.5rem;
+  }
+  
+  .small-button,
+  button.small {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-height: 2rem;
+  }
+  
+  .actions-cell {
+    gap: 8px;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  button, 
+  .btn,
+  [class*="button"] {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    min-height: 2.25rem;
+  }
+  
+  .small-button,
+  button.small {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+    min-height: 1.8rem;
+  }
+  
+  .actions-cell {
+    gap: 6px;
+    min-width: 120px;
+  }
 }
 
 .permission-message {
@@ -843,9 +1041,24 @@ tr.status-rejected {
 
 /* Mobile Optimizations */
 @media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .dashboard-content {
+    padding: var(--spacing-sm);
+  }
+  
+  .section, 
+  .primary-section {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+  
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
+    padding: var(--spacing-sm);
   }
   
   .dashboard-header h1 {
@@ -858,43 +1071,49 @@ tr.status-rejected {
     align-self: flex-end;
   }
   
-  .section, .primary-section {
-    padding: var(--spacing-md);
-  }
-  
   .permission-request-form,
   .teacher-permission-requests,
   .permission-requests,
   .other-class-attendance,
   .attendance-statistics {
     padding: var(--spacing-md);
-  }
-  
-  .permission-request-form h3,
-  .teacher-permission-requests h3,
-  .permission-requests h3,
-  .other-class-attendance h3,
-  .attendance-statistics h3 {
-    font-size: 1.2rem;
     margin-bottom: var(--spacing-md);
   }
   
+  /* Fix table container on mobile */
+  .table-container {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+  
+  /* Fix button spacing */
   .button-group {
-    gap: 0.35rem;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
   }
   
-  .nav-tab {
-    padding: var(--spacing-md) var(--spacing-sm);
+  .actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding: var(--spacing-sm) !important;
   }
   
-  .section-title {
-    font-size: 1.25rem;
+  .small-button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-height: 2rem;
   }
 }
 
 @media (max-width: 480px) {
   .dashboard-container {
-    padding: 0 var(--spacing-sm);
+    padding: 0 var(--spacing-xs);
+  }
+  
+  .dashboard-content {
+    padding: var(--spacing-xs);
   }
   
   .permission-request-form,
@@ -903,6 +1122,7 @@ tr.status-rejected {
   .other-class-attendance,
   .attendance-statistics {
     padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
   }
   
   .status-badge {
@@ -911,30 +1131,23 @@ tr.status-rejected {
     min-width: 4.5rem;
   }
   
-  .filter-controls {
-    width: 100%;
+  .section-header {
+    margin-bottom: var(--spacing-md);
   }
   
-  .filter-controls select {
-    flex: 1;
+  .section-title {
+    font-size: 1.25rem;
   }
   
-  .class-selection-form {
-    flex-direction: column;
-    align-items: stretch;
+  /* Further optimize buttons on small screens */
+  .small-button {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+    min-height: 1.8rem;
   }
   
-  .class-selection-form .form-group {
-    width: 100%;
-  }
-  
-  .class-selection-form button {
-    width: 100%;
-  }
-  
-  .dashboard-user-info {
-    width: 100%;
-    justify-content: flex-end;
+  .actions-cell {
+    gap: 6px;
   }
 }
 
@@ -1339,42 +1552,6 @@ textarea.is-invalid {
   color: var(--text-secondary);
 }
 
-/* Button base styling */
-button {
-  cursor: pointer;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 2.75rem;
-}
-
-button:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-light);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-button:disabled {
-  background-color: var(--neutral-dark);
-  cursor: not-allowed;
-  opacity: 0.7;
-  transform: none;
-  box-shadow: none;
-}
-
 /* Mobile-Optimized Tables */
 @media (max-width: 767px) {
   /* Card-style tables for mobile */
@@ -1433,10 +1610,42 @@ button:disabled {
     color: var(--text-secondary);
   }
   
-  /* Specific styles for attendance marker */
-  .attendance-marker .mobile-friendly-table td select {
-    max-width: 120px;
-    min-width: 120px;
+  /* Specifically style the action cells */
+  .actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding: var(--spacing-sm) !important;
+  }
+  
+  /* Fix the width of button containers for tables */
+  td.actions-cell {
+    width: 1%; /* Take minimum space needed */
+    white-space: nowrap;
+  }
+  
+  /* Make buttons consistent */
+  .small-button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-width: 60px; /* Ensure button has enough width */
+  }
+  
+  /* Fix the stacked card view for mobile tables */
+  .mobile-friendly-table tbody td.actions-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    padding: 8px 12px;
+  }
+  
+  /* Ensure containers have proper margins */
+  .teacher-list, 
+  .attendance-section,
+  .permission-requests,
+  .other-class-attendance {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
   }
 }
 
@@ -1446,6 +1655,7 @@ button:disabled {
   margin-bottom: var(--spacing-lg);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-light);
+  width: 100%;
 }
 
 /* Minimize horizontal scroll with specific width handling */
@@ -1641,7 +1851,7 @@ button:disabled {
 .small-button.reject-button:hover,
 .remove-button.small-button:hover,
 .small-button.remove-button:hover {
-  background-color: var(--danger-color) !important;
+  background-color: var(--danger-dark) !important;
   color: #ffcccc !important; /* Light red color on hover */
 }
 
@@ -1649,7 +1859,7 @@ button:disabled {
 .small-button.reject-button:active,
 .remove-button.small-button:active,
 .small-button.remove-button:active {
-  background-color: var(--danger-color) !important;
+  background-color: var(--danger-dark) !important;
   color: #ff9999 !important; /* Slightly darker red on active */
 }
 
@@ -1689,75 +1899,6 @@ button:disabled {
   background-color: var(--primary-dark) !important;
   border-color: var(--primary-dark) !important;
   color: white !important;
-}
-
-/* Remove button styles */
-.remove-button.small-button,
-.small-button.remove-button {
-  background-color: var(--danger-color) !important;
-  border-color: var(--danger-color) !important;
-  color: white !important;
-  transition: none !important;
-}
-
-.remove-button.small-button:hover,
-.small-button.remove-button:hover {
-  background-color: var(--danger-dark) !important;
-  border-color: var(--danger-dark) !important;
-  color: white !important;
-}
-
-/* Ensure text remains white for all button states */
-.edit-button.small-button,
-.small-button.edit-button,
-.remove-button.small-button,
-.small-button.remove-button,
-.edit-button.small-button:hover,
-.small-button.edit-button:hover,
-.remove-button.small-button:hover,
-.small-button.remove-button:hover,
-.edit-button.small-button:active,
-.small-button.edit-button:active,
-.remove-button.small-button:active,
-.small-button.remove-button:active,
-.edit-button.small-button:focus,
-.small-button.edit-button:focus,
-.remove-button.small-button:focus,
-.small-button.remove-button:focus {
-  color: white !important;
-  -webkit-text-fill-color: white !important;
-}
-
-/* Small button base styles */
-.small-button {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem;
-  min-height: 2.25rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-weight: 500;
-  border-radius: var(--border-radius);
-}
-
-/* Teacher Management Button Layout */
-.actions-cell {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-/* Edit button styling */
-.small-button.edit-button {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-}
-
-.small-button.edit-button:hover {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
 }
 
 /* Delete button styling */
@@ -1811,4 +1952,1296 @@ button:disabled {
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --transition-speed: 0.2s;
+}
+
+/* Table and Action Button Improvements */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  width: 100%;
+}
+
+.mobile-friendly-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bg-white);
+}
+
+.mobile-friendly-table th {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.mobile-friendly-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--neutral-light);
+}
+
+/* Specifically style the action cells */
+.actions-cell {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  min-width: 160px; /* Ensure buttons have enough space */
+  padding: 8px 12px;
+}
+
+/* Fix the width of button containers for tables */
+td.actions-cell {
+  width: 1%; /* Take minimum space needed */
+  white-space: nowrap;
+}
+
+/* Make buttons consistent */
+.small-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  margin: 0; /* Reset margins */
+}
+
+/* Improve dashboard section spacing */
+.teacher-list, 
+.attendance-section,
+.permission-requests,
+.other-class-attendance {
+  background-color: var(--bg-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden; /* Prevent margin collapse */
+}
+
+@media (max-width: 767px) {
+  /* Optimize action cells on mobile */
+  .actions-cell {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 4px; /* Tighter spacing on mobile */
+  }
+  
+  /* Make action buttons fit better on mobile */
+  .small-button {
+    padding: 8px 12px;
+    min-width: 70px; /* Ensure button has enough width */
+  }
+  
+  /* Fix the stacked card view for mobile tables */
+  .mobile-friendly-table tbody td.actions-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+  
+  /* Ensure containers have proper margins */
+  .teacher-list, 
+  .attendance-section,
+  .permission-requests,
+  .other-class-attendance {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Fix button spacing throughout the app */
+.button-group,
+.actions-group,
+.dashboard-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Status buttons spacing */
+.status-cell {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-cell select,
+.status-select {
+  min-width: 100px;
+}
+
+/* Add increased specificity to fix button colors */
+button.small-button.edit-button,
+button.small-button.delete-button,
+button.small-button.reject-button {
+  margin: 0 !important;
+  min-width: 70px !important;
+}
+
+/* Fix button spacing and styling with high-specificity selectors */
+.mobile-friendly-table td.actions-cell,
+table td.actions-cell,
+div.actions-cell,
+.actions-cell {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 20px !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  min-width: 200px !important;
+  box-sizing: border-box !important;
+}
+
+/* Make buttons consistent with specific styling */
+.small-button.edit-button,
+.small-button.delete-button,
+.small-button.reject-button,
+.small-button.approve-button,
+button.small-button.edit-button,
+button.small-button.delete-button,
+button.small-button.reject-button,
+button.small-button.approve-button {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.85rem !important;
+  min-height: 2.25rem !important;
+  min-width: 80px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Status button styles with higher specificity */
+.status-cell,
+td.status-cell,
+.mobile-friendly-table td.status-cell {
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: flex-end !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  padding: 10px !important;
+}
+
+.status-cell select,
+.status-select,
+.mobile-friendly-table .status-cell select {
+  min-width: 120px !important;
+  padding: 8px 10px !important;
+}
+
+/* Mobile responsive adjustments with high specificity */
+@media (max-width: 767px) {
+  .mobile-friendly-table td.actions-cell,
+  table td.actions-cell,
+  div.actions-cell,
+  .actions-cell {
+    gap: 10px !important;
+    justify-content: flex-end !important;
+    min-width: 150px !important;
+  }
+  
+  .small-button.edit-button,
+  .small-button.delete-button,
+  .small-button.reject-button,
+  .small-button.approve-button,
+  button.small-button.edit-button,
+  button.small-button.delete-button,
+  button.small-button.reject-button,
+  button.small-button.approve-button {
+    padding: 0.4rem 0.6rem !important;
+    min-width: 72px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-friendly-table td.actions-cell,
+  table td.actions-cell,
+  div.actions-cell,
+  .actions-cell {
+    gap: 8px !important;
+    min-width: 140px !important;
+  }
+  
+  .small-button.edit-button,
+  .small-button.delete-button,
+  .small-button.reject-button,
+  .small-button.approve-button,
+  button.small-button.edit-button,
+  button.small-button.delete-button,
+  button.small-button.reject-button,
+  button.small-button.approve-button {
+    padding: 0.35rem 0.5rem !important;
+    min-width: 65px !important;
+  }
+}
+
+/* Attendance Marker Status Buttons */
+.status-cell .small-button {
+  min-width: 80px !important;
+  margin: 2px !important;
+}
+
+/* Highlight active status button */
+.status-cell .small-button.approve-button {
+  background-color: var(--success-color) !important;
+  border-color: var(--success-color) !important;
+  font-weight: bold !important;
+}
+
+.status-cell .small-button.reject-button {
+  background-color: var(--danger-color) !important;
+  border-color: var(--danger-color) !important;
+  font-weight: bold !important;
+}
+
+.status-cell .small-button.check-button {
+  background-color: var(--warning-color) !important;
+  border-color: var(--warning-color) !important;
+  font-weight: bold !important;
+}
+
+/* Attendance status button group styling */
+td .status-cell {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
+  min-width: 270px !important;
+}
+
+@media (max-width: 768px) {
+  td .status-cell {
+    min-width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .status-cell .small-button {
+    flex: 1 1 auto !important;
+    min-width: 70px !important;
+  }
+}
+
+/*******************************************
+* ULTIMATE BUTTON FIX - MAXIMUM SPECIFICITY
+*******************************************/
+html body .App table td.actions-cell,
+html body .App div.actions-cell,
+html body .App .actions-cell,
+html body td.actions-cell,
+html body div.actions-cell,
+html body .actions-cell {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 20px !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  min-width: 200px !important;
+  box-sizing: border-box !important;
+}
+
+/* Override any existing button styles */
+html body .App table .small-button,
+html body .App .small-button,
+html body .small-button {
+  min-width: 80px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  padding: 8px 12px !important;
+}
+
+/* Edit button specific style */
+html body .small-button.edit-button,
+html body button.small-button.edit-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* Delete button specific style */
+html body .small-button.delete-button,
+html body button.small-button.delete-button,
+html body .small-button.reject-button,
+html body button.small-button.reject-button {
+  background-color: var(--danger-color) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* Status buttons */
+html body .status-cell, 
+html body td .status-cell {
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: flex-end !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  padding: 10px !important;
+}
+
+html body .status-cell .small-button {
+  flex: 0 0 auto !important;
+  min-width: 80px !important;
+}
+
+/* Override mobile styles */
+@media (max-width: 768px) {
+  html body table td.actions-cell,
+  html body div.actions-cell,
+  html body .actions-cell {
+    gap: 10px !important;
+  }
+  
+  html body .status-cell {
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+  
+  html body .status-cell .small-button {
+    min-width: 70px !important;
+    flex: 1 1 30% !important;
+    margin: 2px !important;
+  }
+}
+
+/* Target attendance status buttons specifically */
+html body .attendance-status-buttons,
+html body td .attendance-status-buttons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  padding: 10px 5px !important;
+  width: 100% !important;
+}
+
+html body .attendance-status-buttons .small-button {
+  flex: 1 !important;
+  min-width: 90px !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 767px) {
+  html body .attendance-status-buttons {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+  }
+  
+  html body .attendance-status-buttons .small-button {
+    min-width: 75px !important;
+    padding: 8px 5px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body .attendance-status-buttons .small-button {
+    min-width: 70px !important;
+    padding: 6px 3px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Login Button Specific Fixes - FINAL OVERRIDE */
+.login-form .login-button {
+  display: block !important;
+  width: 100% !important;
+  padding: 12px 16px !important;
+  margin: 16px 0 0 0 !important;
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+}
+
+.login-form .autofill-buttons {
+  margin-top: 20px !important;
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: space-between !important;
+}
+
+.login-form .autofill-button {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  min-height: unset !important;
+}
+
+.login-form .autofill-button.admin {
+  background-color: #34495e !important;
+}
+
+.login-form .autofill-button.teacher {
+  background-color: #2980b9 !important;
+}
+
+/* Teacher Dashboard Widget Buttons - OVERRIDE */
+.widget-actions {
+  display: flex !important;
+  gap: 16px !important;
+  margin-top: 20px !important;
+  justify-content: center !important;
+}
+
+.widget-action-button {
+  flex: 1 !important;
+  min-width: 120px !important;
+  padding: 10px 16px !important;
+  font-size: 0.9rem !important;
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+.widget-action-button:hover {
+  background-color: var(--primary-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.widget-action-button.secondary {
+  background-color: var(--bg-white) !important;
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+}
+
+.widget-action-button.secondary:hover {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+}
+
+/* Add specific style for the summary dashboard buttons */
+.quick-attendance-summary {
+  margin-bottom: 24px !important;
+}
+
+.quick-attendance-summary .button-group {
+  display: flex !important;
+  gap: 16px !important;
+  margin-top: 16px !important;
+}
+
+.quick-attendance-summary button {
+  flex: 1 !important;
+  min-width: 120px !important;
+  padding: 10px 16px !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+  margin: 0 !important;
+  font-weight: 500 !important;
+}
+
+/* Make these styles more aggressive with higher specificity */
+html body .widget-actions {
+  display: flex !important;
+  gap: 16px !important;
+  margin-top: 20px !important;
+  justify-content: center !important;
+}
+
+html body .widget-action-button {
+  flex: 1 !important;
+  min-width: 120px !important;
+}
+
+/* Dashboard quick action buttons (Mark Today/View History) */
+.dashboard-content button,
+.dashboard-content .btn {
+  margin: 0 8px !important;
+  min-width: 120px !important;
+}
+
+.dashboard-content .button-group {
+  display: flex !important;
+  gap: 16px !important;
+  flex-wrap: nowrap !important;
+  margin: 16px 0 !important;
+}
+
+/* Style quick summary buttons specifically */
+.quick-attendance-summary {
+  margin-bottom: 16px !important;
+}
+
+.quick-attendance-summary .button-group {
+  margin-top: 12px !important;
+}
+
+/* Add more specific selectors for Mark Today/View History buttons */
+button.mark-today,
+.mark-today,
+button.view-history,
+.view-history {
+  margin-right: 16px !important;
+  min-width: 120px !important;
+  padding: 10px 16px !important;
+}
+
+/* Add highest specificity selectors as a fallback */
+html body .dashboard-content button,
+html body .dashboard-content .btn {
+  margin-right: 16px !important;
+}
+
+/* Fix TeacherDashboard buttons */
+.teacher-dashboard button {
+  margin-right: 16px !important;
+}
+
+/* Override styles for Mark Today/View History buttons */
+.dashboard-content .mark-today-button,
+.dashboard-content .view-history-button,
+.quick-attendance-summary button {
+  margin-right: 16px !important;
+  min-width: 120px !important;
+  padding: 10px 15px !important;
+}
+
+.dashboard-content .button-container {
+  display: flex !important;
+  gap: 16px !important;
+  margin: 12px 0 !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+/* Add fixed space between buttons when there's no gap support */
+.dashboard-content button + button {
+  margin-left: 16px !important;
+}
+
+/* Completely redesigned Attendance History Table */
+.attendance-history {
+  margin-bottom: 2rem;
+  padding: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--neutral-light);
+  padding: var(--spacing-lg);
+}
+
+.attendance-history h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.attendance-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.status-icon.present {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: var(--success-color);
+}
+
+.status-icon.absent {
+  background-color: rgba(233, 75, 53, 0.2);
+  color: var(--danger-color);
+}
+
+.status-icon.late {
+  background-color: rgba(255, 170, 44, 0.2);
+  color: var(--warning-color);
+}
+
+.status-icon.unknown {
+  background-color: rgba(173, 181, 189, 0.2);
+  color: var(--neutral-dark);
+}
+
+.attendance-grid-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--neutral-light);
+  margin-bottom: var(--spacing-md);
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--neutral-light);
+}
+
+/* Header styling */
+.attendance-table th {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Student column */
+.attendance-table .student-col {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  min-width: 180px;
+  text-align: left;
+  background-color: white;
+  border-right: 2px solid var(--neutral-light);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+}
+
+.attendance-table th.student-col {
+  background-color: var(--primary-light);
+  z-index: 20;
+}
+
+/* Date columns */
+.attendance-table .date-col {
+  min-width: 100px;
+  white-space: nowrap;
+}
+
+/* Status cells */
+.attendance-table .status-cell {
+  min-width: 60px;
+}
+
+/* Status colors */
+.status-cell.present {
+  background-color: rgba(76, 175, 80, 0.15);
+}
+
+.status-cell.absent {
+  background-color: rgba(233, 75, 53, 0.15);
+}
+
+.status-cell.late {
+  background-color: rgba(255, 170, 44, 0.15);
+}
+
+.status-cell.unknown {
+  background-color: rgba(173, 181, 189, 0.15);
+}
+
+.no-data {
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--neutral-light);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .attendance-history {
+    padding: var(--spacing-md);
+  }
+  
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .attendance-table .student-col {
+    min-width: 140px;
+  }
+  
+  .attendance-legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Loading and error states */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  margin: var(--spacing-md) 0;
+  min-height: 150px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--danger-color);
+}
+
+.error-container p {
+  color: var(--danger-color);
+  text-align: center;
+  max-width: 400px;
+}
+
+/* Simple Attendance History Table */
+.attendance-history {
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--neutral-light);
+  padding: var(--spacing-lg);
+}
+
+.attendance-history h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.attendance-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  margin-right: var(--spacing-md);
+}
+
+.color-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.color-box.present {
+  background-color: var(--success-color);
+}
+
+.color-box.absent {
+  background-color: var(--danger-color);
+}
+
+.color-box.late {
+  background-color: var(--warning-color);
+}
+
+.color-box.unknown {
+  background-color: var(--neutral-medium);
+}
+
+.simple-table-container {
+  overflow-x: auto;
+  margin-bottom: var(--spacing-md);
+}
+
+.simple-attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--neutral-light);
+}
+
+.simple-attendance-table th,
+.simple-attendance-table td {
+  padding: 10px;
+  border: 1px solid var(--neutral-light);
+  text-align: center;
+}
+
+.simple-attendance-table th {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.simple-attendance-table .student-name {
+  text-align: left;
+  font-weight: 500;
+  background-color: var(--bg-light);
+}
+
+.attendance-cell {
+  width: 40px;
+  height: 40px;
+  cursor: default;
+}
+
+.attendance-cell.present {
+  background-color: var(--success-color);
+}
+
+.attendance-cell.absent {
+  background-color: var(--danger-color);
+}
+
+.attendance-cell.late {
+  background-color: var(--warning-color);
+}
+
+.attendance-cell.unknown {
+  background-color: var(--neutral-medium);
+}
+
+/* State displays */
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  margin: var(--spacing-md) 0;
+  min-height: 150px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+.error-state {
+  border-left: 4px solid var(--danger-color);
+}
+
+.error-state p {
+  color: var(--danger-color);
+  font-weight: 500;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .attendance-history {
+    padding: var(--spacing-md);
+  }
+  
+  .simple-attendance-table th,
+  .simple-attendance-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .attendance-cell {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .legend-item {
+    margin-bottom: var(--spacing-xs);
+  }
+}
+
+/* Dashboard Welcome Section */
+.teacher-dashboard-home {
+  margin-bottom: var(--spacing-lg);
+}
+
+.dashboard-welcome {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--neutral-light);
+}
+
+.dashboard-welcome h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-welcome .current-date {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.dashboard-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+
+.dashboard-col {
+  flex: 1 1 350px;
+  min-width: 300px;
+}
+
+/* Attendance Summary Card */
+.attendance-summary-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--neutral-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.summary-header {
+  padding: var(--spacing-md);
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-display {
+  text-align: center;
+  width: 100%;
+}
+
+.current-date {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.summary-content {
+  padding: var(--spacing-md);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.stat-box {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.stat-icon {
+  font-size: 1.75rem;
+  margin-bottom: 5px;
+}
+
+.stat-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.present-stat {
+  border-left: 4px solid var(--success-color);
+}
+
+.absent-stat {
+  border-left: 4px solid var(--danger-color);
+}
+
+.late-stat {
+  border-left: 4px solid var(--warning-color);
+}
+
+.rate-stat {
+  grid-column: span 2;
+  border-top: 4px solid var(--primary-color);
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.progress-bar.good-rate {
+  background-color: var(--success-color);
+}
+
+.progress-bar.average-rate {
+  background-color: var(--warning-color);
+}
+
+.progress-bar.poor-rate {
+  background-color: var(--danger-color);
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.action-button {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.action-button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.action-button.primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.action-button.secondary {
+  background-color: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.action-button.secondary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* No data state */
+.no-data-container {
+  padding: var(--spacing-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.no-data-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-muted);
+}
+
+.no-data-message {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Loading state */
+.card-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Class Info Card */
+.quick-stats-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--neutral-light);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  padding: var(--spacing-md);
+  background-color: var(--primary-light);
+  border-bottom: 1px solid var(--neutral-light);
+}
+
+.card-header h4 {
+  color: var(--primary-dark);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-content {
+  padding: var(--spacing-md);
+  flex-grow: 1;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid var(--neutral-light);
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.card-actions {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--neutral-light);
+  background-color: var(--bg-light);
+  text-align: center;
+}
+
+.card-action-button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0;
+  display: block;
+}
+
+.card-action-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
