@@ -134,8 +134,9 @@ function TeacherDashboard() {
     <div className="dashboard teacher-dashboard">
       <header className="dashboard-header">
         <div className="dashboard-title">
-          <h1>Smart Attendance | School Attendance System</h1>
+          <h1>Smart Attendance | Mo/Kukurampola K.V.</h1>
           <div className="teacher-info">
+            <div className="dashboard-subtitle">Teacher Portal</div>
             <span className="teacher-class-badge">Grade {teacherGrade} {teacherClass}</span>
           </div>
         </div>

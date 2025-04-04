@@ -20,7 +20,10 @@ function AdminDashboard() {
   return (
     <div className="dashboard admin-dashboard">
       <header className="dashboard-header">
-        <h1>Smart Attendance | School Attendance System - Admin</h1>
+        <div className="dashboard-title">
+          <h1>Smart Attendance | Mo/Kukurampola K.V.</h1>
+          <div className="dashboard-subtitle">Administrator Portal</div>
+        </div>
         <button onClick={handleLogout} className="logout-button">
           Logout
         </button>

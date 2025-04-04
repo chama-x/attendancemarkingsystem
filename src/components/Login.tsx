@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -46,10 +47,11 @@ function Login() {
         setDebug(prev => prev + "\nAssuming teacher role, redirecting...");
         setTimeout(() => navigate("/teacher"), 1000);
       }
-    } catch (error: any) {
-      setDebug(prev => prev + "\nLogin error: " + error.message);
+    } catch (error: unknown) {
+      const firebaseError = error as FirebaseError;
+      setDebug(prev => prev + "\nLogin error: " + firebaseError.message);
       setError("Failed to log in. Please check your credentials.");
-      console.error("Login error:", error);
+      console.error("Login error:", firebaseError);
     } finally {
       setLoading(false);
     }
@@ -58,8 +60,10 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-form">
-        <h2>School Attendance System</h2>
-        <h3>Login</h3>
+        <img src="/logo.jpeg" alt="School Logo" className="login-logo" />
+        <h4 className="school-name">Mo/Kukurampola K.V.</h4>
+        <h2>Smart Attendance System</h2>
+        <h3>Teacher & Admin Portal</h3>
         
         {error && <p className="error-message">{error}</p>}
         
@@ -72,6 +76,7 @@ function Login() {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
+              placeholder="Enter your email"
             />
           </div>
           
@@ -83,6 +88,7 @@ function Login() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
+              placeholder="Enter your password"
             />
           </div>
           
@@ -95,25 +101,25 @@ function Login() {
           </button>
         </form>
         
-        <div className="autofill-buttons" style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+        <div className="autofill-buttons">
           <button 
             onClick={fillAdminCredentials} 
             type="button"
-            style={{ flex: 1, padding: '8px', backgroundColor: '#34495e', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            className="autofill-button admin"
           >
-            Fill Admin Login
+            Admin Demo
           </button>
           <button 
             onClick={fillTeacherCredentials} 
             type="button"
-            style={{ flex: 1, padding: '8px', backgroundColor: '#2980b9', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            className="autofill-button teacher"
           >
-            Fill Grade 10A Teacher
+            Teacher Demo
           </button>
         </div>
         
         {debug && (
-          <div className="debug-info" style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '4px', whiteSpace: 'pre-line' }}>
+          <div className="debug-info">
             <h4>Debug Info:</h4>
             <code>{debug}</code>
           </div>

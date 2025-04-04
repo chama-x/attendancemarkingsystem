@@ -6,6 +6,33 @@ import { Student, AttendanceRecord } from "../types";
  * Firebase service utility functions for common database operations
  */
 
+// Define interfaces for the data structures
+interface StudentData {
+  name: string;
+  index: string;
+}
+
+interface AttendanceData {
+  studentName: string;
+  studentIndex: string;
+  status: "present" | "absent" | "late";
+  timestamp: unknown;
+}
+
+interface PermissionRequestData {
+  requesterId: string;
+  requesterEmail: string;
+  requesterName: string;
+  targetGrade: number;
+  targetClass: string;
+  targetDate: string;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected';
+  requestedAt: number | null;
+  responderId?: string;
+  respondedAt?: number | null;
+}
+
 // Students
 export const fetchStudents = async (grade: number, className: string): Promise<Student[]> => {
   try {
@@ -16,8 +43,8 @@ export const fetchStudents = async (grade: number, className: string): Promise<S
       const studentsData = snapshot.val();
       return Object.entries(studentsData).map(([id, data]) => ({
         id,
-        name: (data as any).name,
-        index: (data as any).index || '',
+        name: (data as StudentData).name,
+        index: (data as StudentData).index || '',
       }));
     }
     
@@ -70,12 +97,7 @@ export const fetchAttendanceForDate = async (
   grade: number, 
   className: string, 
   date: string
-): Promise<Record<string, {
-  studentName: string;
-  studentIndex: string;
-  status: "present" | "absent" | "late";
-  timestamp: any;
-}>> => {
+): Promise<Record<string, AttendanceData>> => {
   try {
     const attendanceRef = ref(database, `attendance/grade${grade}${className}/${date}`);
     const snapshot = await get(attendanceRef);
@@ -105,7 +127,7 @@ export const saveAttendance = async (
     const attendanceRef = ref(database, `attendance/grade${grade}${className}/${date}`);
     
     // Prepare the attendance data with student names and indices
-    const processedData: Record<string, any> = {};
+    const processedData: Record<string, AttendanceData> = {};
     
     // For each student ID in the attendance data
     for (const studentId in attendanceData) {
@@ -132,7 +154,7 @@ export const fetchAttendanceHistory = async (
   grade: number, 
   className: string,
   limit = 30
-): Promise<Record<string, Record<string, any>>> => {
+): Promise<Record<string, Record<string, AttendanceData>>> => {
   try {
     const attendanceRef = ref(database, `attendance/grade${grade}${className}`);
     const attendanceQuery = query(attendanceRef, orderByKey(), limitToLast(limit));
@@ -193,7 +215,7 @@ export const markAttendance = async (
     const attendanceRef = ref(database, `attendance/grade${grade}${className}/${date}`);
     
     // Prepare the attendance data
-    const processedData: Record<string, any> = {};
+    const processedData: Record<string, AttendanceData> = {};
     
     // For each student ID in the attendance data
     for (const studentId in attendanceData) {
@@ -221,12 +243,9 @@ export const fetchAttendanceByDate = async (
   grade: number, 
   className: string, 
   date: string
-): Promise<Array<{
+): Promise<Array<AttendanceRecord & {
   id: string;
-  studentName: string;
-  studentIndex: string;
-  status: "present" | "absent" | "late";
-  timestamp: any;
+  timestamp: number | null;
 }>> => {
   try {
     // Use consistent path format
@@ -297,7 +316,7 @@ export const fetchPermissionRequests = async (
     
     const requests = Object.entries(snapshot.val()).map(([id, data]) => ({
       id,
-      ...data as any,
+      ...(data as PermissionRequestData),
     }));
     
     // Filter by status if provided
@@ -327,7 +346,7 @@ export const fetchTeacherPermissionRequests = async (
     const requests = Object.entries(snapshot.val())
       .map(([id, data]) => ({
         id,
-        ...data as any,
+        ...(data as PermissionRequestData),
       }))
       .filter(request => request.requesterId === teacherId);
     
@@ -381,12 +400,18 @@ export const rejectPermissionRequest = async (
   }
 };
 
+interface PermissionCheckResult {
+  hasPermission: boolean;
+  isAssigned: boolean;
+  permissionRequest?: PermissionRequestData & { id: string } | null;
+}
+
 export const checkPermissionToMarkAttendance = async (
   teacherId: string,
   grade: number,
   className: string,
   date: string
-) => {
+): Promise<PermissionCheckResult> => {
   try {
     // Check if the teacher is assigned to this class (naturally has permission)
     const userRef = ref(database, `users/${teacherId}`);
@@ -409,7 +434,12 @@ export const checkPermissionToMarkAttendance = async (
       return { hasPermission: false, isAssigned: false };
     }
     
-    const requests = Object.values(snapshot.val() as any).filter((request: any) => 
+    type PermissionRequestWithId = PermissionRequestData & { id: string };
+    
+    const requests = Object.entries(snapshot.val()).map(([id, data]) => ({
+      id,
+      ...(data as PermissionRequestData)
+    })).filter((request: PermissionRequestWithId) => 
       request.requesterId === teacherId &&
       request.targetGrade === grade &&
       request.targetClass === className &&
@@ -453,7 +483,7 @@ export const migrateAttendanceData = async (
     const students = await fetchStudents(grade, className);
     
     // Create the new format data
-    const newData: Record<string, any> = {};
+    const newData: Record<string, AttendanceData> = {};
     
     for (const studentId in oldData) {
       const student = students.find(s => s.id === studentId);
@@ -467,7 +497,7 @@ export const migrateAttendanceData = async (
         newData[studentId] = {
           studentName: student.name,
           studentIndex: student.index,
-          status: status,
+          status: status as "present" | "absent" | "late",
           timestamp: serverTimestamp()
         };
       }
